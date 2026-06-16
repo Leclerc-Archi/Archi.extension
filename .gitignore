@@ -1,0 +1,30 @@
+# Fichiers système
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Cache Python / pyRevit
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs pyRevit
+*.log
+
+# Fichiers temporaires Revit
+*.0001.rvt
+~$*.rvt
+*.rte.lock
+*.rvt.lock
+
+# Environnements / éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Sauvegardes manuelles (à garder localement seulement)
+*~
+*.bak
+EF-Tools.extension/
+Bin/

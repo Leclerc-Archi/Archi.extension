@@ -1,0 +1,168 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Archi - BIM-TEAM Gestionnaire de Visibilite" Height="700" Width="1000" 
+        WindowStartupLocation="CenterScreen" Background="#F8F4ED">
+    
+    <Window.Resources>
+        <SolidColorBrush x:Key="ColorPrimary" Color="#166534"/>
+        <SolidColorBrush x:Key="ColorSecondary" Color="#D1CFC0"/>
+        <SolidColorBrush x:Key="ColorAccentGreen" Color="#15803D"/>
+        <SolidColorBrush x:Key="ColorAccentSand" Color="#F2EBDC"/>
+        
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        
+        <Style x:Key="NaturalListBoxStyle" TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="{StaticResource ColorSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{StaticResource ColorAccentSand}"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+        </Style>
+        
+        <DataTemplate x:Key="CheckableItemTemplate">
+            <Grid Background="Transparent">
+                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" 
+                          VerticalAlignment="Center" Margin="2,4" IsHitTestVisible="False">
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="#333333"/>
+                </CheckBox>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="*"/>    
+            <RowDefinition Height="Auto"/> 
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Text="CONFIGURATION DE VISIBILITE DYNAMIQUE" FontSize="18" FontWeight="Black" Foreground="{StaticResource ColorPrimary}"/>
+            <Rectangle Height="3" Fill="{StaticResource ColorSecondary}" HorizontalAlignment="Stretch" Margin="0,8,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="1">
+                <TextBox x:Name="SearchBox" Height="32" VerticalContentAlignment="Center" Padding="8,0,8,0" FontSize="13"
+                         BorderBrush="{StaticResource ColorSecondary}" Background="{StaticResource ColorAccentSand}"/>
+                
+                <TextBlock Text="Filtrer..." Foreground="#A6A291" IsHitTestVisible="False" Margin="12,0,0,0" 
+                          VerticalAlignment="Center" FontStyle="Italic" FontSize="13">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/> 
+                <ColumnDefinition Width="1*"/> 
+                <ColumnDefinition Width="1.3*"/> 
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,0,12,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="1. Gabarits cibles" FontSize="14" FontWeight="Bold" Foreground="{StaticResource ColorPrimary}" Margin="0,0,0,8"/>
+                <ListBox Grid.Row="1" x:Name="TemplateList" Style="{StaticResource NaturalListBoxStyle}" ItemTemplate="{StaticResource CheckableItemTemplate}"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="12,0,12,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="2. Categories Parentes" FontSize="14" FontWeight="Bold" Foreground="{StaticResource ColorPrimary}" Margin="0,0,0,8"/>
+                <ListBox Grid.Row="1" x:Name="CatList" Style="{StaticResource NaturalListBoxStyle}" ItemTemplate="{StaticResource CheckableItemTemplate}"/>
+            </Grid>
+
+            <Grid Grid.Column="2" Margin="12,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="3. Sous-categories et Statuts" FontSize="14" FontWeight="Bold" Foreground="{StaticResource ColorPrimary}" Margin="0,0,0,8"/>
+                
+                <ListView Grid.Row="1" x:Name="SubCatList" 
+                          BorderBrush="{StaticResource ColorSecondary}" BorderThickness="1" 
+                          Background="{StaticResource ColorAccentSand}" SelectionMode="Extended">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Sous-categorie" Width="220">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" 
+                                                  VerticalAlignment="Center" IsHitTestVisible="False">
+                                            <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="#333333"/>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            
+                            <GridViewColumn Header="Statut" Width="130">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StatusText}" FontWeight="Bold" VerticalAlignment="Center" Foreground="{Binding StatusColor}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button x:Name="BtnHide" Content="MASQUER" Width="100" Height="30" Margin="0,0,12,0" Background="#D9534F"/>
+            <Button x:Name="BtnShow" Content="AFFICHER" Width="100" Height="30" Background="{StaticResource ColorAccentGreen}"/>
+        </StackPanel>
+    </Grid>
+</Window>

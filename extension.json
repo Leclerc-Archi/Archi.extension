@@ -1,0 +1,9 @@
+{
+    "$schema": "https://raw.githubusercontent.com/pyrevitlabs/pyRevit/master/extensions/extension.schema.json",
+    "name": "Archi-",
+    "description": "Menu d'outils personnalisés pyRevit pour la firme Archi-",
+    "author": "Archi-",
+    "type": "extension",
+    "rocket_mode_compatible": true,
+    "url": "https://github.com/REMPLACER-PAR-VOTRE-USERNAME/Archi.extension.git"
+}

@@ -1,0 +1,8 @@
+highlight: new
+title:
+  fr_fr: |-
+    Matériau Importer/exporter
+tooltip: 
+ fr_fr: >-
+    Importe/exporte les materiaux ((Nom, Classe, Marque, Description, Fabricant, Modèle, Coût, Commentaires)
+author: LECLERC

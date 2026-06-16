@@ -1,0 +1,49 @@
+name: Valider la structure pyRevit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Vérifier que chaque pushbutton a un script.py
+        run: |
+          set -e
+          missing=0
+          while IFS= read -r -d '' dir; do
+            if ! find "$dir" -maxdepth 1 -iname "*.py" | grep -q .; then
+              echo "::warning file=$dir::Aucun fichier .py trouvé dans ce pushbutton"
+              missing=$((missing+1))
+            fi
+          done < <(find . -type d -name "*.pushbutton" -print0)
+          echo "Pushbuttons sans script .py: $missing"
+
+      - name: Vérifier que chaque pushbutton a un bundle.yaml
+        run: |
+          set -e
+          missing=0
+          while IFS= read -r -d '' dir; do
+            if [ ! -f "$dir/bundle.yaml" ]; then
+              echo "::error file=$dir::bundle.yaml manquant"
+              missing=$((missing+1))
+            fi
+          done < <(find . -type d -name "*.pushbutton" -print0)
+          if [ "$missing" -gt 0 ]; then
+            echo "$missing pushbutton(s) sans bundle.yaml"
+            exit 1
+          fi
+
+      - name: Vérifier l'absence de fichiers indésirables
+        run: |
+          set -e
+          found=$(find . -iname "Thumbs.db" -o -iname ".DS_Store" | wc -l)
+          if [ "$found" -gt 0 ]; then
+            echo "::warning::$found fichier(s) système (Thumbs.db / .DS_Store) trouvés — pensez à les supprimer."
+          fi

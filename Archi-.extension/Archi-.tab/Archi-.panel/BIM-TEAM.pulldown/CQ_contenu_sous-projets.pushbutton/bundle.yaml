@@ -1,0 +1,10 @@
+highlight: new
+title:
+  es_es: |-
+    TEST - Review workset content
+  fr_fr: |-
+    Controle qualité du contenu des sous-projets
+tooltip: 
+ fr_fr: >-
+    Transfert le contenu de Sous-projet 1 vers les sous-projets appropriés
+author: LECLERC
